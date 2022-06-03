@@ -2,7 +2,7 @@
 using FDNS.Common.DataTransferObjects;
 using FDNS.Common.Models;
 using FDNS.Domain.Interfaces;
-using FDNS.Domain.Models;
+using FDNS.Domain.Models.Base;
 using FDNS.Services.Abstractions.Base;
 
 namespace FDNS.Services.Base

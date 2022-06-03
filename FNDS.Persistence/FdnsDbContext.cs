@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FNDS.Persistence
 {
-    public class FndsDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
+    public class FdnsDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     {
-        public FndsDbContext(DbContextOptions options): base(options)
+        public FdnsDbContext(DbContextOptions options): base(options)
         {
         }
 
@@ -15,6 +15,8 @@ namespace FNDS.Persistence
         public DbSet<Domain> Domains { get; set; }
         public DbSet<DomainContacts> DomainContacts { get; set; }
         public DbSet<UserContacts> UserContacts { get; set; }
+        public DbSet<SandboxDomainPrice> SandboxDomainPricing { get; set; }
+        public DbSet<ProductionDomainPrice> ProductionDomainPricing { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

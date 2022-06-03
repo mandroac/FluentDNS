@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FDNS.Domain.Models.Base;
+using System;
 
 namespace FDNS.Domain.Models
 {

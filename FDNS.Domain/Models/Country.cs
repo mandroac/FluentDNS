@@ -1,4 +1,6 @@
-﻿namespace FDNS.Domain.Models
+﻿using FDNS.Domain.Models.Base;
+
+namespace FDNS.Domain.Models
 {
     public class Country : BaseEntity<ushort>
     {

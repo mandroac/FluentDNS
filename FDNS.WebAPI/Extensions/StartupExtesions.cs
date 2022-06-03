@@ -3,6 +3,7 @@ using FDNS.Domain.Interfaces;
 using FDNS.Domain.Models;
 using FDNS.Infrastructure.NamecheapAPI.Interfaces;
 using FDNS.Infrastructure.NamecheapAPI.Services;
+using FDNS.Persistence.Repositories;
 using FDNS.Services.Abstractions.Base;
 using FDNS.Services.Abstractions.Security;
 using FDNS.Services.Base;
@@ -56,6 +57,7 @@ namespace FDNS.WebAPI.Extensions
         {
             services.Configure<NamecheapApiConfiguration>(configuration.GetSection("NamecheapAPI"));
             services.Configure<JWTConfiguration>(configuration.GetSection("JWT"));
+            services.Configure<EconomyConfiguration>(configuration.GetSection("Economy"));
 
             return services;
         }
@@ -65,6 +67,7 @@ namespace FDNS.WebAPI.Extensions
             services.AddHttpClient();
             services.AddScoped<INamecheapDomainsService, NamecheapDomainsService>();
             services.AddScoped<INamecheapDnsService, NamecheapDnsService>();
+            services.AddScoped<INamecheapUsersService, NamecheapUsersService>();
 
             return services;
         }
@@ -75,11 +78,15 @@ namespace FDNS.WebAPI.Extensions
             services.AddScoped<IDomainsRepository, DomainsRepository>();
             services.AddScoped<IDomainContactsRepository, DomainContactsRepository>();
             services.AddScoped<IUserContactsRepository, UserContactsRepository>();
+            services.AddScoped<IProductionDomainPricingRepository, ProductionDomainPricingRepository>();
+            services.AddScoped<ISandboxDomainPricingRepository, SandboxDomainPricingRepository>();
 
             services.AddScoped<IDomainsService, DomainsService>();
             services.AddScoped<IDomainContactsService, DomainContactsService>();
             services.AddScoped<ICountriesService, CountriesService>();
             services.AddScoped<IUserContactsService, UserContactsService>();
+            services.AddScoped<IBaseDomainPricingService<SandboxDomainPrice>, SandboxDomainPricingService>();
+
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ITokenService, TokenService>();
 
@@ -90,7 +97,7 @@ namespace FDNS.WebAPI.Extensions
                 opts.User.RequireUniqueEmail = true;
                 opts.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_";
                 opts.Password.RequireNonAlphanumeric = false;
-            }).AddEntityFrameworkStores<FndsDbContext>()
+            }).AddEntityFrameworkStores<FdnsDbContext>()
                 .AddSignInManager<SignInManager<User>>()
                 .AddDefaultTokenProviders();
 
@@ -118,6 +125,16 @@ namespace FDNS.WebAPI.Extensions
                 };
             });
 
+            var corsOrigins = new List<string>();
+            config.GetSection("AllowedOrigins").Bind(corsOrigins);
+
+            services.AddCors(opts => 
+            {
+                opts.AddPolicy("CorsPolicy", policy => 
+                {
+                    policy.AllowAnyMethod().AllowAnyHeader().WithOrigins(corsOrigins.ToArray());
+                });
+            });
             return services;
         }
     }

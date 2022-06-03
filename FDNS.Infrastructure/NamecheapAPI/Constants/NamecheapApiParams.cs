@@ -35,5 +35,14 @@
                 public static readonly string TTL = "TTL";
             }
         }
+
+        internal static class Pricing
+        {
+            public static readonly string ProductType = "ProductType";
+            public static readonly string ProductCategory = "ProductCategory";
+            public static readonly string PromotionCode = "PromotionCode";
+            public static readonly string ActionName = "ActionName";
+            public static readonly string ProductName = "ProductName";
+        }
     }
 }

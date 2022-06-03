@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using FDNS.Common.DataTransferObjects;
+using FDNS.Domain.Models;
 using FDNS.Infrastructure.NamecheapAPI.Interfaces;
 using FDNS.Infrastructure.NamecheapAPI.Models.Domains;
+using FDNS.Infrastructure.NamecheapAPI.Models.Users;
 using FDNS.Services.Abstractions.Base;
 using FDNS.WebAPI.Extensions;
 using FDNS.WebAPI.Models.Domains;
@@ -16,16 +18,21 @@ namespace FDNS.WebAPI.Controllers
     {
         private readonly IDomainsService _domainsService;
         private readonly INamecheapDnsService _namecheapDnsService;
+        private readonly INamecheapUsersService _namecheapUsersService;
+        private readonly IBaseDomainPricingService<SandboxDomainPrice> _domainPricingService;
         private readonly INamecheapDomainsService _namecheapDomainsService;
         private readonly IMapper _mapper;
 
         public DomainsController(INamecheapDomainsService namecheapDomainsService, IMapper mapper, 
-            IDomainsService domainsService, INamecheapDnsService namecheapDnsService)
+            IDomainsService domainsService, INamecheapDnsService namecheapDnsService, 
+            INamecheapUsersService namecheapUsersService, IBaseDomainPricingService<SandboxDomainPrice> domainPricingService)
         {
             _namecheapDomainsService = namecheapDomainsService;
             _mapper = mapper;
             _domainsService = domainsService;
             _namecheapDnsService = namecheapDnsService;
+            _namecheapUsersService = namecheapUsersService;
+            _domainPricingService = domainPricingService;
         }
 
         #region Base calls
@@ -139,6 +146,14 @@ namespace FDNS.WebAPI.Controllers
                 return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Errors);
             }
             else return BadRequest($"'{domain}' is not a valid domain name");
+        }
+
+        [HttpGet("pricing"), AllowAnonymous]
+        public async Task<IActionResult> GetPricing()
+        {
+            var response = await _domainPricingService.GetDefaultDomainPricing();
+
+            return Ok(response.Value);
         }
 
         #endregion

@@ -28,5 +28,18 @@
 
             }
         }
+
+        internal static class Users
+        {
+            public const string GetPricing = "namecheap.users.getPricing";
+            public const string GetBalances = "namecheap.users.getBalances";
+            public const string ChangePassword = "namecheap.users.changePassword";
+            public const string Update = "namecheap.users.update";
+            public const string Createaddfundsrequest = "namecheap.users.createaddfundsrequest";
+            public const string GetAddFundsStatus = "namecheap.users.getAddFundsStatus";
+            public const string Create = "namecheap.users.create";
+            public const string Login = "namecheap.users.login";
+            public const string ResetPassword = "namecheap.users.resetPassword";
+        }
     }
 }

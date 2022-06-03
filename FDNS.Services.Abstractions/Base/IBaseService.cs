@@ -1,6 +1,6 @@
 ﻿using FDNS.Common.DataTransferObjects;
 using FDNS.Common.Models;
-using FDNS.Domain.Models;
+using FDNS.Domain.Models.Base;
 
 namespace FDNS.Services.Abstractions.Base
 {

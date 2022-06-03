@@ -1,4 +1,4 @@
-﻿using FDNS.Domain.Models;
+﻿using FDNS.Domain.Models.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;

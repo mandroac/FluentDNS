@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
 using FDNS.Common.DataTransferObjects;
+using FDNS.Domain.Models;
+using FDNS.Domain.Models.Base;
 using FDNS.Infrastructure.NamecheapAPI.Models.Base;
 using FDNS.Infrastructure.NamecheapAPI.Models.Domains;
+using FDNS.Infrastructure.NamecheapAPI.Models.Users;
 using FDNS.WebAPI.Models.Account;
 using FDNS.WebAPI.Models.Domains;
 
@@ -39,6 +42,14 @@ namespace FDNS.WebAPI.Utils
                     opts.PreCondition(s => !s.EmailOrUsername.Contains('@'));
                     opts.MapFrom(s => s.EmailOrUsername);
                 });
+
+            CreateMap<ProductPrice, SandboxDomainPrice>()
+                .ForMember(d => d.UserPrice, opts => opts.MapFrom((src, dest, destMember, context) =>
+                    src.Price * (double)context.Items["Profitability"]));
+
+            CreateMap<ProductPrice, ProductionDomainPrice>()
+                .ForMember(d => d.UserPrice, opts => opts.MapFrom((src, dest, destMember, context) =>
+                    src.Price * (double)context.Items["Profitability"]));
         }
     }
 }

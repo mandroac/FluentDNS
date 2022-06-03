@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FNDS.Persistence.Migrations
 {
-    [DbContext(typeof(FndsDbContext))]
+    [DbContext(typeof(FdnsDbContext))]
     [Migration("20220524192749_SeedUserRoles")]
     partial class SeedUserRoles
     {

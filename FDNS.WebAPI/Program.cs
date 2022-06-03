@@ -29,7 +29,7 @@ builder.Services
     });
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddDbContext<FndsDbContext>(opt =>
+builder.Services.AddDbContext<FdnsDbContext>(opt =>
 {
     opt.UseSqlServer(builder.Configuration.GetConnectionString("FdnsDBConnection"));
 });
@@ -51,12 +51,20 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
+
+app.UseRouting();
+
+app.UseCors("CorsPolicy");
 
 app.UseAuthentication();
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+await app.MigrateDatabaseAsync();
+
+await app.SeedDatabaseAsync();
 
 app.Run();

@@ -5,7 +5,7 @@ namespace FNDS.Persistence.Repositories
 {
     public class UserContactsRepository : BaseRepository<UserContacts, Guid>, IUserContactsRepository
     {
-        public UserContactsRepository(FndsDbContext fndsDbContext) : base(fndsDbContext)
+        public UserContactsRepository(FdnsDbContext fndsDbContext) : base(fndsDbContext)
         {
         }
     }

@@ -7,7 +7,7 @@ namespace FNDS.Persistence.Repositories
 {
     public class DomainsRepository : BaseRepository<Domain, Guid>, IDomainsRepository
     {
-        public DomainsRepository(FndsDbContext context) : base(context)
+        public DomainsRepository(FdnsDbContext context) : base(context)
         {
         }
 

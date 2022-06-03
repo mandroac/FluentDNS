@@ -13,9 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FDNS.Infrastructure", "FDNS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FDNS.Common", "FDNS.Common\FDNS.Common.csproj", "{2519DB33-082C-48F4-B498-752BBCFDB7BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FDNS.Services.Abstractions", "FDNS.Services.Abstractions\FDNS.Services.Abstractions.csproj", "{74F2AAA1-1F2F-42A5-BBE3-138B6E198406}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FDNS.Services.Abstractions", "FDNS.Services.Abstractions\FDNS.Services.Abstractions.csproj", "{74F2AAA1-1F2F-42A5-BBE3-138B6E198406}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FDNS.Services", "FDNS.Services\FDNS.Services.csproj", "{701158C4-FA26-4976-AFA9-A4438554324D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FDNS.Services", "FDNS.Services\FDNS.Services.csproj", "{701158C4-FA26-4976-AFA9-A4438554324D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

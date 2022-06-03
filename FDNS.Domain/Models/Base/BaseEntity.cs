@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace FDNS.Domain.Models
+namespace FDNS.Domain.Models.Base
 {
     public abstract class BaseEntity<TKey> where TKey : IComparable
     {

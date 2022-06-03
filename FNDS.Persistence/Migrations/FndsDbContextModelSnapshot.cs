@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FNDS.Persistence.Migrations
 {
-    [DbContext(typeof(FndsDbContext))]
+    [DbContext(typeof(FdnsDbContext))]
     partial class FndsDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -55,7 +55,7 @@ namespace FNDS.Persistence.Migrations
 
                     SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("FullName"), false);
 
-                    b.ToTable("Countries", (string)null);
+                    b.ToTable("Countries");
 
                     b.HasData(
                         new
@@ -1469,7 +1469,7 @@ namespace FNDS.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Domains", (string)null);
+                    b.ToTable("Domains");
                 });
 
             modelBuilder.Entity("FDNS.Domain.Models.DomainContacts", b =>
@@ -1560,7 +1560,87 @@ namespace FNDS.Persistence.Migrations
 
                     b.HasIndex("DomainId");
 
-                    b.ToTable("DomainContacts", (string)null);
+                    b.ToTable("DomainContacts");
+                });
+
+            modelBuilder.Entity("FDNS.Domain.Models.ProductionDomainPricing", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<double>("AdditionalCost")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Duration")
+                        .HasColumnType("int");
+
+                    b.Property<string>("DurationType")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("ProductCategoryName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<double>("RegularPrice")
+                        .HasColumnType("float");
+
+                    b.Property<double>("UserPrice")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProductionDomainPricing");
+                });
+
+            modelBuilder.Entity("FDNS.Domain.Models.SandboxDomainPricing", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<double>("AdditionalCost")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Duration")
+                        .HasColumnType("int");
+
+                    b.Property<string>("DurationType")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("ProductCategoryName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<double>("RegularPrice")
+                        .HasColumnType("float");
+
+                    b.Property<double>("UserPrice")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SandboxDomainPricing");
                 });
 
             modelBuilder.Entity("FDNS.Domain.Models.User", b =>
@@ -1722,7 +1802,7 @@ namespace FNDS.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserContacts", (string)null);
+                    b.ToTable("UserContacts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
@@ -1756,14 +1836,14 @@ namespace FNDS.Persistence.Migrations
                         new
                         {
                             Id = new Guid("781ac221-b109-453b-a525-95bc9ec87678"),
-                            ConcurrencyStamp = "227731e6-a43d-419c-b643-bcab781f03a6",
+                            ConcurrencyStamp = "ddcadec1-d78e-4628-bdfb-e7c9449092a0",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = new Guid("fd55fe70-7497-4f55-980e-0d936d6bee4e"),
-                            ConcurrencyStamp = "104acd3b-948a-4337-8041-894e76366fac",
+                            ConcurrencyStamp = "f81106a7-0541-4e3e-8c98-e13cade7eff0",
                             Name = "user",
                             NormalizedName = "USER"
                         });

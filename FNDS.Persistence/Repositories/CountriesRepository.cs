@@ -5,7 +5,7 @@ namespace FNDS.Persistence.Repositories
 {
     public class CountriesRepository : BaseRepository<Country, ushort>, ICountriesRepository
     {
-        public CountriesRepository(FndsDbContext context) : base(context)
+        public CountriesRepository(FdnsDbContext context) : base(context)
         {
 
         }

@@ -1,5 +1,5 @@
 ﻿using FDNS.Domain.Interfaces;
-using FDNS.Domain.Models;
+using FDNS.Domain.Models.Base;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -9,9 +9,9 @@ namespace FNDS.Persistence.Repositories
         where TEntity : BaseEntity<TKey>
         where TKey : IComparable
     {
-        protected readonly FndsDbContext Context;
+        protected readonly FdnsDbContext Context;
 
-        public BaseRepository(FndsDbContext fndsDbContext) =>
+        public BaseRepository(FdnsDbContext fndsDbContext) =>
             Context = fndsDbContext;
         
 
