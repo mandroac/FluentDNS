@@ -1,28 +1,40 @@
-import React, { useEffect, useState } from "react";
-import { List } from "semantic-ui-react";
-import agent from "../../api/agent";
+import { observer } from "mobx-react-lite";
+import { useEffect } from "react";
+import { Container, Table } from "semantic-ui-react";
 import LoadingComponent from "../../app/layout/LoadingComponent";
 import { DomainPrice } from "../../app/models/DomainPrice";
+import { useStore } from "../../app/stores/store";
 
-export default function Home() {
-    const [loading, setLoading] = useState(true);
-    const [pricing, setPricing] = useState<DomainPrice[]>([]);
+export default observer(function Home() {
+    const { pricingStore } = useStore();
 
     useEffect(() => {
-        agent.Domains.defaultPricing().then(response => {
-            setPricing(response);
-            console.log(response);
-        }).catch(error => () => {
-            console.log(error);
-        }).finally(() => setLoading(false))
-}, []);
+        pricingStore.loadDefaultPricing();
+    }, [pricingStore]);
 
-if (loading) return <LoadingComponent content="Loading pricing..." />
-return (
-    <List>
-        {pricing.map((price: DomainPrice) => (
-            <List.Item key={price.id} content={price.tld + ' ' + price.register} />
-        ))}
-    </List>
-)
-}
+    if (pricingStore.loading) return <LoadingComponent content="Loading pricing..." />
+    return (
+        <Container style={{ marginTop: '7em' }}>
+            <Table celled striped textAlign="center" color="violet">
+                <Table.Header>
+                    <Table.Row>
+                        <Table.HeaderCell content="TLD" />
+                        <Table.HeaderCell content="Register" />
+                        <Table.HeaderCell content="Renew" />
+                        <Table.HeaderCell content="Redemption" />
+                    </Table.Row>
+                </Table.Header>
+                <Table.Body >
+                    {pricingStore.sandboxDefaultPricing.map((price: DomainPrice) => (
+                        <Table.Row key={price.id}>
+                            <Table.Cell>{price.tld}</Table.Cell>
+                            <Table.Cell>{price.register === null ? '-' : price.register}</Table.Cell>
+                            <Table.Cell>{price.renew === null ? '-' : price.renew}</Table.Cell>
+                            <Table.Cell>{price.redemption === null ? '-' : price.redemption}</Table.Cell>
+                        </Table.Row>
+                    ))}
+                </Table.Body>
+            </Table>
+        </Container>
+    )
+})
