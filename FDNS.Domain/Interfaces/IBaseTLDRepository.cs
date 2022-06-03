@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace FDNS.Domain.Interfaces
 {
-    public interface IBasePriceRepository<T> where T : BasePrice
+    public interface IBaseTLDRepository<T> where T : BaseTLD
     {
-        Task UploadPricingAsync(IEnumerable<T> pricing);
+        Task UploadTldsAsync(IEnumerable<T> tlds);
         IQueryable<T> AsQueryable();
     }
 }

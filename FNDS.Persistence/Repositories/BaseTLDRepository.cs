@@ -5,12 +5,11 @@ using FNDS.Persistence;
 
 namespace FDNS.Persistence.Repositories
 {
-    public class BasePriceRepository<T> : IBasePriceRepository<T>
-        where T : BasePrice
+    public class BaseTLDRepository<T> : IBaseTLDRepository<T> where T : BaseTLD
     {
         protected readonly FdnsDbContext Context;
 
-        public BasePriceRepository(FdnsDbContext fndsDbContext) =>
+        public BaseTLDRepository(FdnsDbContext fndsDbContext) =>
             Context = fndsDbContext;
 
         public IQueryable<T> AsQueryable()
@@ -18,7 +17,7 @@ namespace FDNS.Persistence.Repositories
             return Context.Set<T>().AsQueryable();
         }
 
-        public async Task UploadPricingAsync(IEnumerable<T> pricing)
+        public async Task UploadTldsAsync(IEnumerable<T> pricing)
         {
             await Context.TruncateAsync<T>();
             await Context.BulkInsertAsync(pricing.ToList());

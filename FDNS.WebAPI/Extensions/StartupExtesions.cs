@@ -78,14 +78,18 @@ namespace FDNS.WebAPI.Extensions
             services.AddScoped<IDomainsRepository, DomainsRepository>();
             services.AddScoped<IDomainContactsRepository, DomainContactsRepository>();
             services.AddScoped<IUserContactsRepository, UserContactsRepository>();
+
             services.AddScoped<IProductionDomainPricingRepository, ProductionDomainPricingRepository>();
             services.AddScoped<ISandboxDomainPricingRepository, SandboxDomainPricingRepository>();
+            services.AddScoped<IBaseTLDRepository<SandboxTLD>, BaseTLDRepository<SandboxTLD>>();
+            services.AddScoped<IBaseTLDRepository<ProductionTLD>, BaseTLDRepository<ProductionTLD>>();
 
             services.AddScoped<IDomainsService, DomainsService>();
             services.AddScoped<IDomainContactsService, DomainContactsService>();
             services.AddScoped<ICountriesService, CountriesService>();
             services.AddScoped<IUserContactsService, UserContactsService>();
             services.AddScoped<IBaseDomainPricingService<SandboxDomainPrice>, SandboxDomainPricingService>();
+            services.AddScoped<IBaseTldService<SandboxTLD>, BaseTldService<SandboxTLD>>();
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ITokenService, TokenService>();

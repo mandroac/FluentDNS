@@ -10,5 +10,6 @@ namespace FDNS.Infrastructure.NamecheapAPI.Interfaces
         Task<ServiceResult<DomainCreateResult>> Create(DomainCreateRequest domain);
         Task<ServiceResult<IEnumerable<DomainCheckResult>>> Check(IEnumerable<string> domains);
         Task<ServiceResult<DomainRenewResult>> Renew(string domain, int years, string promoCode = null);
+        Task<ServiceResult<Tlds>> GetTldList();
     }
 }

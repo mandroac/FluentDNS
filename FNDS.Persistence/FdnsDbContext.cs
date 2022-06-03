@@ -17,6 +17,8 @@ namespace FNDS.Persistence
         public DbSet<UserContacts> UserContacts { get; set; }
         public DbSet<SandboxDomainPrice> SandboxDomainPricing { get; set; }
         public DbSet<ProductionDomainPrice> ProductionDomainPricing { get; set; }
+        public DbSet<SandboxTLD> SandboxTLDs { get; set; }
+        public DbSet<ProductionTLD> ProductionTLDs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

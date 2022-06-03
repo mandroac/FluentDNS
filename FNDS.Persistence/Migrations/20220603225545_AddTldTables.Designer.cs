@@ -4,6 +4,7 @@ using FNDS.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FNDS.Persistence.Migrations
 {
     [DbContext(typeof(FdnsDbContext))]
-    partial class FndsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220603225545_AddTldTables")]
+    partial class AddTldTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1666,9 +1668,6 @@ namespace FNDS.Persistence.Migrations
                     b.Property<int>("SequenceNumber")
                         .HasColumnType("int");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.ToTable("ProductionTLDs");
@@ -1775,9 +1774,6 @@ namespace FNDS.Persistence.Migrations
                         .HasColumnType("bit");
 
                     b.Property<int>("SequenceNumber")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Type")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -1978,14 +1974,14 @@ namespace FNDS.Persistence.Migrations
                         new
                         {
                             Id = new Guid("781ac221-b109-453b-a525-95bc9ec87678"),
-                            ConcurrencyStamp = "b3fd2ceb-b658-4acd-8f32-7ee301cc9221",
+                            ConcurrencyStamp = "cd29fe3c-0292-4c0b-a620-1b12e17100a4",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = new Guid("fd55fe70-7497-4f55-980e-0d936d6bee4e"),
-                            ConcurrencyStamp = "4a9f1745-d710-4418-b4c4-8114bbc30212",
+                            ConcurrencyStamp = "13f549a6-a363-486e-a287-2f1bd3154037",
                             Name = "user",
                             NormalizedName = "USER"
                         });

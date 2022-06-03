@@ -209,6 +209,24 @@ namespace FDNS.Infrastructure.NamecheapAPI.Services
             }
         }
 
+        public async Task<ServiceResult<Tlds>> GetTldList()
+        {
+            var query = new Query(NamecheapApiCommands.Domains.GetTldList, GlobalParams);
+
+            try
+            {
+                var resultElement = await SendRequestAsync<Tlds>(new HttpRequestMessage(HttpMethod.Get, query.Result));
+                var result = DeserializeElement<Tlds>(resultElement);
+                return new ServiceResult<Tlds>(result);
+            }
+            catch (ApplicationException ex)
+            {
+                return new ServiceResult<Tlds>(new List<string>
+                {
+                    ex.Message
+                });
+            }
+        }
 
         #region Helpers
 

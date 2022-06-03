@@ -40,6 +40,10 @@ namespace FDNS.WebAPI.Extensions
                 {
                     await SeedSandboxPricingAsync(scope);
                 }
+                if (!await context.SandboxTLDs.AnyAsync())
+                {
+                    await SeedSandboxTldsAsync(scope);
+                }
             }
             catch (Exception ex)
             {
@@ -48,6 +52,17 @@ namespace FDNS.WebAPI.Extensions
             }
 
             return webApp;
+        }
+
+        private static async Task SeedSandboxTldsAsync(IServiceScope scope)
+        {
+            var namecheapApiService = scope.ServiceProvider.GetRequiredService<INamecheapDomainsService>();
+            var sandboxTldsRepository = scope.ServiceProvider.GetRequiredService<IBaseTLDRepository<SandboxTLD>>();
+            var mapper = scope.ServiceProvider.GetRequiredService<IMapper>();
+
+            var apiResponse = await namecheapApiService.GetTldList();
+            var tlds = mapper.Map<IEnumerable<SandboxTLD>>(apiResponse.Value.TldList);
+            await sandboxTldsRepository.UploadTldsAsync(tlds);
         }
 
         private static async Task SeedSandboxPricingAsync(IServiceScope scope)
@@ -63,7 +78,7 @@ namespace FDNS.WebAPI.Extensions
                 ProductType = "DOMAIN"
             });
             var pricing = mapper.Map<IEnumerable<SandboxDomainPrice>>(apiResponse.Value.Prices, opts => opts.Items.Add("Profitability", mult));
-            await sandboxPricingRepository.UploadPricing(pricing);
+            await sandboxPricingRepository.UploadPricingAsync(pricing);
         }
     }
 }

@@ -50,6 +50,8 @@ namespace FDNS.WebAPI.Utils
             CreateMap<ProductPrice, ProductionDomainPrice>()
                 .ForMember(d => d.UserPrice, opts => opts.MapFrom((src, dest, destMember, context) =>
                     src.Price * (double)context.Items["Profitability"]));
+
+            CreateMap<Tld, SandboxTLD>();
         }
     }
 }

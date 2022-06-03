@@ -19,6 +19,9 @@ namespace FDNS.Services.Utils
             CreateMap<User, UserDTO>().ReverseMap();
             CreateMap<AuthUserDTO, User>();
             CreateMap<UserContacts, UserContactsDTO>().ReverseMap();
+            CreateMap<SandboxTLD, TldDTO>();
+            CreateMap<ProductionTLD, TldDTO>();
+
         }
     }
 }

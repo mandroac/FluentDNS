@@ -18,21 +18,22 @@ namespace FDNS.WebAPI.Controllers
     {
         private readonly IDomainsService _domainsService;
         private readonly INamecheapDnsService _namecheapDnsService;
-        private readonly INamecheapUsersService _namecheapUsersService;
         private readonly IBaseDomainPricingService<SandboxDomainPrice> _domainPricingService;
+        private readonly IBaseTldService<SandboxTLD> _tldService;
         private readonly INamecheapDomainsService _namecheapDomainsService;
         private readonly IMapper _mapper;
 
         public DomainsController(INamecheapDomainsService namecheapDomainsService, IMapper mapper, 
             IDomainsService domainsService, INamecheapDnsService namecheapDnsService, 
-            INamecheapUsersService namecheapUsersService, IBaseDomainPricingService<SandboxDomainPrice> domainPricingService)
+            IBaseDomainPricingService<SandboxDomainPrice> domainPricingService,
+            IBaseTldService<SandboxTLD> tldService)
         {
             _namecheapDomainsService = namecheapDomainsService;
             _mapper = mapper;
             _domainsService = domainsService;
             _namecheapDnsService = namecheapDnsService;
-            _namecheapUsersService = namecheapUsersService;
             _domainPricingService = domainPricingService;
+            _tldService = tldService;
         }
 
         #region Base calls
@@ -152,6 +153,14 @@ namespace FDNS.WebAPI.Controllers
         public async Task<IActionResult> GetPricing()
         {
             var response = await _domainPricingService.GetDefaultDomainPricing();
+
+            return Ok(response.Value);
+        }
+
+        [HttpGet("tlds"), AllowAnonymous]
+        public async Task<IActionResult> GetTlds()
+        {
+            var response = await _tldService.GetGtlds();
 
             return Ok(response.Value);
         }
