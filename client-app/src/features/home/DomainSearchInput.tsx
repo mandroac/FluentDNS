@@ -13,15 +13,16 @@ type option = {
 export default observer(function DomainSearchInput() {
     const { tldStore, domainStore } = useStore();
     const { loadGtlds, gtlds, loading } = tldStore;
-    const { domainCheckResults, checkDomainsAvailability } = domainStore
+    const { checkDomainsAvailability, loadingDomainsCheck } = domainStore
 
-    const [ options, setOptions ] = useState<option[]>([])
-    const [ TLD, setTLD ] = useState<string>()
-    const [ SLD, setSLD ] = useState<string>()
+    const [options, setOptions] = useState<option[]>([])
+    const [TLD, setTLD] = useState<string>()
+    const [SLD, setSLD] = useState<string>()
 
     useEffect(() => {
-        if (!gtlds.length) loadGtlds()
 
+        if (!gtlds.length) loadGtlds()
+        setOptions([])
         gtlds.forEach((tld: TLD, i) => {
             const val = { key: tld.id, value: tld.name, text: "." + tld.name };
             setOptions((prev) => [...prev, val])
@@ -29,22 +30,22 @@ export default observer(function DomainSearchInput() {
         });
     }, [loadGtlds, setOptions, gtlds]);
 
-    async function handleSubmit(){
-    let domains: string[] = [];
-    domains.push(SLD! + TLD)
-    gtlds.slice(0, 5).filter(tld => '.' + tld.name != TLD).forEach(tld => {
-        domains.push(SLD! + '.' + tld.name)
-    })
-    const result = await checkDomainsAvailability(domains)
-    //console.log(JSON.stringify(domains))
-    console.log(result)
-}
+    async function handleDomainsCheck() {
+        let domains: string[] = [];
+        domains.push(SLD! + TLD);
+
+        gtlds.slice(0, 5).filter(tld => '.' + tld.name !== TLD).forEach(tld => {
+            domains.push(SLD! + '.' + tld.name)
+        });
+
+        await checkDomainsAvailability(domains);
+    }
 
     return (
         < >
             <Grid>
                 <Grid.Column width={14}>
-                    <Input placeholder="Enter Second-Level-Domain"
+                    <Input size="big" placeholder="Enter Second-Level-Domain"
                         label={<Dropdown
                             onChange={(e, data) => setTLD("." + data.value?.toString())}
                             loading={loading}
@@ -57,7 +58,10 @@ export default observer(function DomainSearchInput() {
                         fluid />
                 </Grid.Column>
                 <Grid.Column width={2}>
-                    <Button type="submit" content="Check" fluid onClick={() => handleSubmit()}/>
+                    <Button size="big" type="submit" content="Check" fluid 
+                        onClick={() => handleDomainsCheck()} 
+                        loading={loadingDomainsCheck}
+                        />
                 </Grid.Column>
             </Grid>
         </>
