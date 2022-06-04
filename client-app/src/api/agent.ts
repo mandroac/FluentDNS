@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { DomainCheckResult } from "../app/models/DomainCheckResult";
 import { DomainPrice } from "../app/models/DomainPrice";
+import { TLD } from "../app/models/TLD";
 
 axios.defaults.baseURL = "https://localhost:7014/api"
 
@@ -25,7 +26,8 @@ const requests = {
 
 const Domains = {
     defaultPricing: () => requests.get<DomainPrice[]>('/domains/pricing'),
-    check: (domains: string[]) => requests.get<DomainCheckResult[]>('/domains/check', domains)
+    check: (domains: string[]) => requests.get<DomainCheckResult[]>('/domains/check', domains),
+    gtlds: () => requests.get<TLD[]>('/domains/gtlds')
 }
 
 const agent = {

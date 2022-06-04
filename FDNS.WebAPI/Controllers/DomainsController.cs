@@ -157,8 +157,8 @@ namespace FDNS.WebAPI.Controllers
             return Ok(response.Value);
         }
 
-        [HttpGet("tlds"), AllowAnonymous]
-        public async Task<IActionResult> GetTlds()
+        [HttpGet("gtlds"), AllowAnonymous]
+        public async Task<IActionResult> GetGtlds()
         {
             var response = await _tldService.GetGtlds();
 
