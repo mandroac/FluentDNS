@@ -4,23 +4,28 @@ import { DomainPrice } from "../models/DomainPrice";
 
 export default class PricingStore {
 
-    sandboxDefaultPricing: DomainPrice[] = [];
-    sandboxFullPricing: DomainPrice[] = [];
+    sandboxPricing: DomainPrice[] = [];
     loading = false;
 
     constructor() {
         makeAutoObservable(this);
     }
 
-    loadDefaultPricing = async () => {
+    loadPricing = async () => {
         runInAction(() => this.loading = true)
         try {
-            this.sandboxDefaultPricing = await agent.Domains.defaultPricing();
+            this.sandboxPricing = await agent.Domains.pricing();
         } catch (error) {
             console.log(error);
         }
         finally {
             runInAction(() => this.loading = false)
         }
+    }
+
+    get defaultSandboxPricing(){
+        const tlds = [ "com", "net", "org", "biz", "info", "dev"]
+
+        return this.sandboxPricing.filter(price => tlds.includes(price.tld))
     }
 }

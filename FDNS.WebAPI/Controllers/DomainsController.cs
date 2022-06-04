@@ -150,9 +150,9 @@ namespace FDNS.WebAPI.Controllers
         }
 
         [HttpGet("pricing"), AllowAnonymous]
-        public async Task<IActionResult> GetPricing()
+        public async Task<IActionResult> GetPricing([FromQuery]int duration = 1)
         {
-            var response = await _domainPricingService.GetDefaultDomainPricing();
+            var response = await _domainPricingService.GetDomainsPricingAsync(duration < 1 ? 1 : duration > 10 ? 10 : duration);
 
             return Ok(response.Value);
         }

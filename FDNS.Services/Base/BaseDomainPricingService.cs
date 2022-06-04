@@ -16,7 +16,7 @@ namespace FDNS.Services.Base
         {
             BaseRepository = repository;
         }
-        public async Task<ServiceResult<IEnumerable<DomainPriceDTO>>> GetDefaultDomainPricing()
+        public async Task<ServiceResult<IEnumerable<DomainPriceDTO>>> GetDefaultDomainPricingAsync()
         {
             var tlds = new List<string>
             {
@@ -52,9 +52,11 @@ namespace FDNS.Services.Base
             return new ServiceResult<IEnumerable<DomainPriceDTO>>(result);
         }
 
-        public async Task<ServiceResult<IEnumerable<DomainPriceDTO>>> GetDomainsPricingAsync()
+        public async Task<ServiceResult<IEnumerable<DomainPriceDTO>>> GetDomainsPricingAsync(int duration = 1)
         {
-            var pricing = await BaseRepository.AsQueryable().ToListAsync();
+            var pricing = await BaseRepository.AsQueryable()
+                .Where(p => p.Duration == duration).ToListAsync();
+
             var tlds = pricing.Select(p => p.ProductName).Distinct();
 
             var result = new List<DomainPriceDTO>();

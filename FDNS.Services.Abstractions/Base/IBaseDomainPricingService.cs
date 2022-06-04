@@ -7,7 +7,7 @@ namespace FDNS.Services.Abstractions.Base
     public interface IBaseDomainPricingService<TEntity>
         where TEntity : BasePrice 
     {
-        Task<ServiceResult<IEnumerable<DomainPriceDTO>>> GetDomainsPricingAsync();
-        Task<ServiceResult<IEnumerable<DomainPriceDTO>>> GetDefaultDomainPricing();
+        Task<ServiceResult<IEnumerable<DomainPriceDTO>>> GetDomainsPricingAsync(int duration = 1);
+        Task<ServiceResult<IEnumerable<DomainPriceDTO>>> GetDefaultDomainPricingAsync();
     }
 }

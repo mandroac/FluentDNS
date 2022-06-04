@@ -9,8 +9,11 @@ const responseBody = <T>(response: AxiosResponse<T>) => response.data
 
 const requests = {
     get: <T>(url: string, body?: {}) => 
-    axios.get<T>(url, { params: {
-            body: body
+    axios.get<T>(url, { 
+        data: JSON.stringify(body), 
+        headers: {
+            "Content-Type" : "application/json; charset=utf-8",
+            "accept": "*/*"
         }
     }).then(responseBody),
 
@@ -25,7 +28,7 @@ const requests = {
 }
 
 const Domains = {
-    defaultPricing: () => requests.get<DomainPrice[]>('/domains/pricing'),
+    pricing: () => requests.get<DomainPrice[]>('/domains/pricing'),
     check: (domains: string[]) => requests.get<DomainCheckResult[]>('/domains/check', domains),
     gtlds: () => requests.get<TLD[]>('/domains/gtlds')
 }
