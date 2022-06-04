@@ -91,7 +91,7 @@ namespace FDNS.WebAPI.Controllers
         }
 
         [HttpGet("check"), AllowAnonymous]
-        public async Task<IActionResult> Check([FromBody] IEnumerable<string> domains)
+        public async Task<IActionResult> Check([FromQuery] IEnumerable<string> domains)
         {
             var result = await _namecheapDomainsService.Check(domains);
  
