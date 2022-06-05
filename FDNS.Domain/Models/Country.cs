@@ -6,5 +6,6 @@ namespace FDNS.Domain.Models
     {
         public string FullName { get; set; }
         public string Code { get; set; }
+        public int Extension { get; set; }
     }
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FDNS.Common.DataTransferObjects
+﻿namespace FDNS.Common.DataTransferObjects
 {
     public class UserContactsDTO : BaseDTO<Guid>
     {
@@ -25,6 +19,5 @@ namespace FDNS.Common.DataTransferObjects
         public string PhoneExt { get; set; }
         public string Fax { get; set; }
         public CountryDTO Country { get; set; }
-        public UserDTO User { get; set; }
     }
 }

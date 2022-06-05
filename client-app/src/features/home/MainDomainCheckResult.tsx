@@ -1,45 +1,49 @@
+import { observer } from "mobx-react-lite";
 import React from "react";
+import { Link } from "react-router-dom";
 import { Button, Grid, Icon, Label, Segment } from "semantic-ui-react";
-import { DomainCheckResult } from "../../app/models/DomainCheckResult";
+import { DomainCheckResult } from "../../app/models/domainCheckResult";
+import { DomainPriceResult } from "../../app/stores/domainStore";
+import { useStore } from "../../app/stores/store";
 
 interface Props {
-    domainCheckResult: { check: DomainCheckResult, price: number | undefined }
+    domainPriceResult: DomainPriceResult
 }
 
-export default function MainDomainCheckResult({ domainCheckResult }: Props) {
+export default observer(function MainDomainCheckResult({ domainPriceResult }: Props) {
+    const {domainStore : {setSelectedPriceResult}} = useStore()
     return (
         <Segment>
             <Grid>
                 <Grid.Row>
                     <Grid.Column width={1}>
-                        {domainCheckResult.check.available ?
+                        {domainPriceResult.check.available ?
                             <Icon name="check circle" size="big" color="green" /> :
                             <Icon name="times circle" size="big" color="red" />
                         }
                     </Grid.Column>
                     <Grid.Column width={6}>
-                        <h2>{domainCheckResult.check.domain}</h2>
+                        <h2>{domainPriceResult.check.domain}</h2>
                     </Grid.Column>
                     <Grid.Column width={7}>
-                        {domainCheckResult.check.isPremiumName &&
+                        {domainPriceResult.check.isPremiumName &&
                             <Label basic color="yellow" content={"PREMIUM"} />
                         }
-                        {domainCheckResult.check.available ?
+                        {domainPriceResult.check.available ?
                             <Label basic color="green"
-                                content={`Register at \$${domainCheckResult.check.isPremiumName ?
-                                    domainCheckResult.check.premiumRegistrationPrice :
-                                    domainCheckResult.price}`}
+                                content={`Register at \$${domainPriceResult.registerPrice}`}
                             /> :
                             <Label basic color="grey" content={"Taken"} />
                         }
                     </Grid.Column>
                     <Grid.Column width={2}>
-                        <Button fluid content="Register"
-                            positive={domainCheckResult.check.available}
-                            disabled={!domainCheckResult.check.available} />
+                        <Button fluid content="Register" as={Link} to={`register`}
+                            positive={domainPriceResult.check.available}
+                            disabled={!domainPriceResult.check.available}
+                            onClick={() => setSelectedPriceResult(domainPriceResult)} />
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
         </Segment>
     )
-}
+})

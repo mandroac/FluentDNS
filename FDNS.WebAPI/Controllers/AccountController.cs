@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FDNS.Common.DataTransferObjects;
 using FDNS.Services.Abstractions.Base;
+using FDNS.WebAPI.Extensions;
 using FDNS.WebAPI.Models.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +29,9 @@ namespace FDNS.WebAPI.Controllers
             
             if (result.IsSuccess)
             {
-                return Ok(result.Value);
+                var userResponse = _mapper.Map<UserResponse>(result.Value.user, opts =>
+                    opts.Items.Add("Token", result.Value.token));
+                return Ok(userResponse);
             }
             else
             {
@@ -44,12 +47,23 @@ namespace FDNS.WebAPI.Controllers
 
             if (result.IsSuccess)
             {
-                return Ok(result.Value);
+                var userResponse = _mapper.Map<UserResponse>(result.Value.user, opts => 
+                    opts.Items.Add("Token", result.Value.token));
+                return Ok(userResponse);
             }
             else
             {
                 return BadRequest(result.Errors);
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetCurrentUser()
+        {
+            var result = await _userService.GetCurrentUserAsync(User.GetUserName());
+            var userResponse = _mapper.Map<UserResponse>(result.Value.user, opts =>
+                opts.Items.Add("Token", result.Value.token));
+            return result.IsSuccess ? Ok (userResponse) : BadRequest(result.Errors);
         }
     }
 }

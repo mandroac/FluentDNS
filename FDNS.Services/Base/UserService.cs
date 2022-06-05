@@ -22,7 +22,7 @@ namespace FDNS.Services.Base
             _tokenService = tokenService;
         }
 
-        public async Task<ServiceResult<string>> RegisterAsync(AuthUserDTO authUserDTO)
+        public async Task<ServiceResult<(UserDTO user, string token)>> RegisterAsync(AuthUserDTO authUserDTO)
         {
             var user = _mapper.Map<User>(authUserDTO);
             var result = await _userManager.CreateAsync(user, authUserDTO.Password);
@@ -30,15 +30,15 @@ namespace FDNS.Services.Base
             {
                 await _userManager.AddToRoleAsync(user, UserRoles.User);
                 var userDto = _mapper.Map<UserDTO>(user);
-                return new ServiceResult<string>(_tokenService.GenerateToken(userDto, UserRoles.User));
+                return new ServiceResult<(UserDTO, string)>((userDto, _tokenService.GenerateToken(userDto, UserRoles.User)));
             }
             else
             {
-                return new ServiceResult<string>(new List<string>(result.Errors.Select(e => e.Description))) ;
+                return new ServiceResult<(UserDTO, string)>(new List<string>(result.Errors.Select(e => e.Description))) ;
             }
         }
 
-        public async Task<ServiceResult<string>> LoginAsync(AuthUserDTO authUserDTO)
+        public async Task<ServiceResult<(UserDTO user, string token)>> LoginAsync(AuthUserDTO authUserDTO)
         {
             User user;
             if (authUserDTO.Email != null)
@@ -53,13 +53,30 @@ namespace FDNS.Services.Base
             if (user != null && await _userManager.CheckPasswordAsync(user, authUserDTO.Password))
             {
                 var userDto = _mapper.Map<UserDTO>(user);
-                return new ServiceResult<string>(_tokenService.GenerateToken(userDto, UserRoles.User));
+                return new ServiceResult<(UserDTO, string)>((userDto, _tokenService.GenerateToken(userDto, UserRoles.User)));
             }
             else
             {
-                return new ServiceResult<string>(new List<string>()
+                return new ServiceResult<(UserDTO, string)>(new List<string>()
                 {
                     "Provided login credentials are not valid"
+                });
+            }
+        }
+
+        public async Task<ServiceResult<(UserDTO user, string token)>> GetCurrentUserAsync(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            if (user != null)
+            {
+                var userDto = _mapper.Map<UserDTO>(user);
+                return new ServiceResult<(UserDTO, string)>((userDto, _tokenService.GenerateToken(userDto, UserRoles.User)));
+            }
+            else
+            {
+                return new ServiceResult<(UserDTO, string)>(new List<string>()
+                {
+                    "User was not found"
                 });
             }
         }

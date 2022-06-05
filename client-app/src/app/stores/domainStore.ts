@@ -1,13 +1,26 @@
 import { makeAutoObservable, runInAction } from "mobx";
+import { history } from "../..";
 import agent from "../../api/agent";
-import { DomainCheckResult } from "../models/DomainCheckResult";
-import { DomainPrice } from "../models/DomainPrice";
+import { DomainCheckResult } from "../models/domainCheckResult";
+import { DomainPrice } from "../models/domainPrice";
+import { DomainRegisterModel } from "../models/domainRegisterModel";
+import { store } from "./store";
+
+export type DomainPriceResult = {
+    check: DomainCheckResult; 
+    registerPrice: number | undefined;
+    renewPrice: number | undefined;
+    redemptionPrice: number | undefined;
+}
 
 export default class DomainStore {
-    domainCheckResults: { check: DomainCheckResult, price: number | undefined }[] = []
+    
+    domainPriceResults: DomainPriceResult[] = []
+    selectedPriceResult: DomainPriceResult | null = null;
     sandboxPricing: DomainPrice[] = [];
     loadingPrices = false;
     loadingDomainsCheck = false;
+    loadingDomainRegistration = false;
     hasCheckResult = false;
 
     constructor() {
@@ -18,16 +31,21 @@ export default class DomainStore {
         runInAction(() => this.loadingDomainsCheck = true);
         try {
             const apiResponse = await agent.Domains.check(domains);
-            this.domainCheckResults = [];
+            this.domainPriceResults = [];
             apiResponse.forEach(result => {
-                
-                const price = result.isPremiumName ?
-                    result.premiumRegistrationPrice :
-                    this.sandboxPricing.find(p => p.tld === result.domain.split('.')[1])?.register
+
+                const regularPrice = this.sandboxPricing.find(p => p.tld === result.domain.split('.')[1]);
+
+                let temp : DomainPriceResult = {
+                    check: result, 
+                    registerPrice: result.isPremiumName ? result.premiumRegistrationPrice : regularPrice?.register,
+                    renewPrice: result.isPremiumName ? result.premiumRenewalPrice : regularPrice?.renew,
+                    redemptionPrice : result.isPremiumName ? result.premiumRestorePrice : regularPrice?.redemption
+                };
 
                 result.domain === domains[0] ?
-                    this.domainCheckResults.unshift({ check: result, price }) :
-                    this.domainCheckResults.push({ check: result, price })
+                    this.domainPriceResults.unshift(temp) :
+                    this.domainPriceResults.push(temp)
             })
             this.hasCheckResult = true;
         } catch (error) {
@@ -35,6 +53,18 @@ export default class DomainStore {
             this.hasCheckResult = false;
         } finally {
             runInAction(() => this.loadingDomainsCheck = false);
+        }
+    }
+
+    register = async (domain: DomainRegisterModel) => {
+        runInAction(() => this.loadingDomainRegistration == true);
+        try {
+            const domainResult = await agent.Domains.register(domain);
+            store.userStore.addDomain(domainResult);
+
+            history.push('profile/domains')
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -50,8 +80,12 @@ export default class DomainStore {
         }
     }
 
-    getTldPrice(tld: string) {
+    getTldPrice= (tld: string) => {
         return this.sandboxPricing.find(price => price.tld === tld);
+    }
+
+    setSelectedPriceResult = (priceResult: DomainPriceResult) => {
+        this.selectedPriceResult = priceResult;
     }
 
     get defaultSandboxPricing() {

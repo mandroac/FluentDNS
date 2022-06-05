@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using FDNS.Common.DataTransferObjects;
 using FDNS.Domain.Models;
-using FDNS.Domain.Models.Base;
 using FDNS.Infrastructure.NamecheapAPI.Models.Base;
 using FDNS.Infrastructure.NamecheapAPI.Models.Domains;
 using FDNS.Infrastructure.NamecheapAPI.Models.Users;
@@ -50,6 +49,10 @@ namespace FDNS.WebAPI.Utils
             CreateMap<ProductPrice, ProductionDomainPrice>()
                 .ForMember(d => d.UserPrice, opts => opts.MapFrom((src, dest, destMember, context) =>
                     src.Price * (double)context.Items["Profitability"]));
+
+            CreateMap<UserDTO, UserResponse>()
+                .ForMember(d => d.Token, opts => opts.MapFrom((src, dest, destMember, context) =>
+                    context.Items["Token"]));
 
             CreateMap<Tld, SandboxTLD>();
         }

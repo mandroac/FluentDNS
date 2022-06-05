@@ -8,5 +8,10 @@ namespace FDNS.WebAPI.Extensions
         {
             return Guid.Parse(claims.FindFirstValue(ClaimTypes.NameIdentifier));
         }
+
+        public static string GetUserName(this ClaimsPrincipal claims)
+        {
+            return claims.FindFirstValue(ClaimTypes.Name);
+        }
     }
 }

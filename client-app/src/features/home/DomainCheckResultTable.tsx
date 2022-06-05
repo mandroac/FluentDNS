@@ -1,15 +1,18 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Button, Icon, Label, Table } from "semantic-ui-react";
-import { DomainCheckResult } from "../../app/models/DomainCheckResult";
+import { DomainPriceResult } from "../../app/stores/domainStore";
+import { useStore } from "../../app/stores/store";
 
 interface Props {
-    domainCheckResults: { check: DomainCheckResult, price: number | undefined }[]
+    domainPriceResults: DomainPriceResult[]
 }
 
-export default function DomainCheckResultTable({ domainCheckResults }: Props) {
+export default function DomainCheckResultTable({ domainPriceResults }: Props) {
+    const { domainStore: {setSelectedPriceResult}} = useStore()
     return (
         <Table>
-            {domainCheckResults.map(item => (
+            {domainPriceResults.map(item => (
                 <Table.Row>
                     <Table.Cell width={1} content={
                         <Icon name={item.check.available ?
@@ -30,9 +33,7 @@ export default function DomainCheckResultTable({ domainCheckResults }: Props) {
                             }
                             {item.check.available ?
                                 <Label basic color="green"
-                                    content={`Register at \$${item.check.isPremiumName ?
-                                        item.check.premiumRegistrationPrice :
-                                        item.price}`}
+                                    content={`Register at \$${item.registerPrice}`}
                                 /> :
                                 <Label basic color="grey" content={"Taken"} />
                             }
@@ -40,6 +41,8 @@ export default function DomainCheckResultTable({ domainCheckResults }: Props) {
                     } />
                     <Table.Cell width={2} content={
                         <Button basic fluid
+                            as={Link} to={"register"} 
+                            onClick={() => setSelectedPriceResult(item)}
                             positive={item.check.available}
                             disabled={!item.check.available}
                             content="Register" />} />
