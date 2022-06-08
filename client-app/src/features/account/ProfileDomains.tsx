@@ -4,7 +4,7 @@ import { Button, Grid, Icon, List, Popup, Segment } from "semantic-ui-react";
 import { useStore } from "../../app/stores/store";
 
 export default observer(function ProfileDomains() {
-    const { userStore: { domains, user, getDomains } } = useStore();
+    const { userStore: { domains, getDomains } } = useStore();
 
     useEffect(() => {
         getDomains()
