@@ -10,6 +10,9 @@ import { store } from "./store";
 export default class UserStore{
     user: User | null = null;
     domains: Domain[] = [];
+    activePane = 0;
+
+    loadingDomains = false;
 
     constructor(){
         makeAutoObservable(this);
@@ -55,8 +58,23 @@ export default class UserStore{
             console.log(error);
         }
     }
+    
+    getDomains = async () => {
+        this.loadingDomains = true;
+        try {
+            this.domains = await agent.Domains.getUserDomains();
+        } catch (error) {
+            console.log(error);
+        } finally {
+            runInAction(() => this.loadingDomains = false)
+        }
+    }
 
     addDomain = (domain: Domain) => {
         this.domains.push(domain);
     }
+
+    setActivePane = (id: any) => {
+        this.activePane = id;
+    } 
 }

@@ -13,4 +13,5 @@ export interface DomainContacts {
     phoneExt?: string;
     fax?: string;
     emailAddress: string;
+    contactsType?: number;
 }

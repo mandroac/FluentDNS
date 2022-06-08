@@ -62,7 +62,7 @@ export default class DomainStore {
             const domainResult = await agent.Domains.register(domain);
             store.userStore.addDomain(domainResult);
 
-            history.push('profile/domains')
+            history.push('profile')
         } catch (error) {
             console.log(error);
         }

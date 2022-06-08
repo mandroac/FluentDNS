@@ -29,7 +29,7 @@ function App() {
           <Route path='*' element={<HomePage />} />
           <Route path='login' element={<SignUpSignInForm />}/>
           <Route path='register' element={<RegisterDomainPage />}/>
-          <Route path='profile/domains' element={<ProfilePage />} />
+          <Route path='profile' element={<ProfilePage />} />
         </Routes>
       </Container>
 

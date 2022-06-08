@@ -30,7 +30,8 @@ const Domains = {
     pricing: () => requests.get<DomainPrice[]>('/domains/pricing'),
     check: (domains: string[]) => requests.get<DomainCheckResult[]>(`/domains/check?domains=${domains.join()}`),
     gtlds: () => requests.get<TLD[]>('/domains/gtlds'),
-    register: (domain: DomainRegisterModel) => requests.post<Domain>('/domains/register', domain)
+    register: (domain: DomainRegisterModel) => requests.post<Domain>('/domains/register', domain),
+    getUserDomains: () => requests.get<Domain[]>('/domains')
 }
 
 const Account ={
