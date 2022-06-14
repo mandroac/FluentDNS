@@ -36,6 +36,27 @@ namespace FDNS.Infrastructure.NamecheapAPI.Services
             }
         }
 
+        public async Task<ServiceResult<DomainDNSGetListResult>> GetList(string sld, string tld)
+        {
+            var query = new Query(NamecheapApiCommands.Domains.DNS.GetList, GlobalParams)
+                .AddParameter(NamecheapApiParams.Domains.DNS.SLD, sld)
+                .AddParameter(NamecheapApiParams.Domains.DNS.TLD, tld);
+
+            try
+            {
+                var responseElement = await SendRequestAsync<DomainDNSGetListResult>(new HttpRequestMessage(HttpMethod.Get, query.Result));
+                var result = DeserializeElement<DomainDNSGetListResult>(responseElement);
+                return new ServiceResult<DomainDNSGetListResult>(result);
+            }
+            catch (ApplicationException ex)
+            {
+                return new ServiceResult<DomainDNSGetListResult>(new List<string>
+                {
+                    ex.Message
+                });
+            }
+        }
+
         public async Task<ServiceResult<DomainDNSSetHostsResult>> SetHosts(string sld, string tld, Host[] records)
         {
             var query = new Query(NamecheapApiCommands.Domains.DNS.SetHosts, GlobalParams)

@@ -28,8 +28,8 @@ function App() {
           <Route path='/' element={<HomePage />} />
           <Route path='*' element={<HomePage />} />
           <Route path='login' element={<SignUpSignInForm />}/>
-          <Route path='register' element={<RegisterDomainPage />}/>
-          <Route path='profile' element={<ProfilePage />} />
+          <Route path='register' element={userStore.isLoggedIn ? <RegisterDomainPage /> : <SignUpSignInForm /> }/>
+          <Route path='profile' element={userStore.isLoggedIn ? <ProfilePage /> : <SignUpSignInForm /> } />
         </Routes>
       </Container>
 

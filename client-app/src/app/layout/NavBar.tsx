@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
-import { Container, Dropdown, Label, Menu, Radio } from "semantic-ui-react";
+import { Container, Dropdown, Label, Menu, Radio, Segment } from "semantic-ui-react";
 import { useStore } from "../stores/store";
 
 export default observer(function NavBar() {
@@ -15,18 +15,19 @@ export default observer(function NavBar() {
             <Container>
                 <Menu.Item header icon="bug" content="FluentDNS" name="home" as={NavLink} to='/' />
                 <Menu.Item position="right">
-                    <Label content="Production" basic />
-                    <Radio slider checked={isSandbox} onClick={() => setIsSandbox(!isSandbox)} />
-                    <Label content="Sandbox" basic />
+                    <Segment basic>
+                        <Radio toggle label={isSandbox ? "Sandbox" : "Production"}
+                            slider checked={isSandbox} onClick={() => setIsSandbox(!isSandbox)} />
+                    </Segment>
                 </Menu.Item>
                 <Menu.Menu position="right" >
                     {isLoggedIn ?
                         <Menu.Item>
                             <Dropdown icon={"user"} text={user?.userName} pointing="top" simple item >
                                 <Dropdown.Menu>
-                                    <Dropdown.Item icon="user outline" as={Link} to={'profile'} text="Profile" /> 
+                                    <Dropdown.Item icon="user outline" as={Link} to={'profile'} text="Profile" />
                                     <Dropdown.Divider />
-                                    <Dropdown.Item icon="power" onClick={logout} text="Logout" /> 
+                                    <Dropdown.Item icon="power" onClick={logout} text="Logout" />
                                 </Dropdown.Menu>
                             </Dropdown>
                         </Menu.Item>

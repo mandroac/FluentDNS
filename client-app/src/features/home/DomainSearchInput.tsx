@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
 import { Button, Dropdown, Grid, Input } from "semantic-ui-react";
-import { TLD } from "../../app/models/TLD";
+import { TLD } from "../../app/models/domain/TLD";
 import { useStore } from "../../app/stores/store";
 
 type option = {

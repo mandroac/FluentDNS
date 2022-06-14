@@ -1,10 +1,10 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { history } from "../..";
 import agent from "../../api/agent";
-import { Domain } from "../models/domain";
-import { LoginUser } from "../models/loginUser";
-import { RegisterUser } from "../models/registerUser";
-import { User } from "../models/user";
+import { Domain } from "../models/domain/domain";
+import { LoginUser } from "../models/user/loginUser";
+import { RegisterUser } from "../models/user/registerUser";
+import { User } from "../models/user/user";
 import { store } from "./store";
 
 export default class UserStore{

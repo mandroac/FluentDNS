@@ -1,13 +1,14 @@
 import axios, { AxiosResponse } from "axios";
-import { Domain } from "../app/models/domain";
-import { DomainCheckResult } from "../app/models/domainCheckResult";
-import { DomainPrice } from "../app/models/domainPrice";
-import { DomainRegisterModel } from "../app/models/domainRegisterModel";
-import { LoginUser } from "../app/models/loginUser";
-import { RegisterUser } from "../app/models/registerUser";
-import { TLD } from "../app/models/TLD";
-import { User } from "../app/models/user";
+import { Domain } from "../app/models/domain/domain";
+import { DomainCheckResult } from "../app/models/domain/domainCheckResult";
+import { DomainPrice } from "../app/models/domain/domainPrice";
+import { DomainRegisterModel } from "../app/models/domain/domainRegisterModel";
+import { LoginUser } from "../app/models/user/loginUser";
+import { RegisterUser } from "../app/models/user/registerUser";
+import { TLD } from "../app/models/domain/TLD";
+import { User } from "../app/models/user/user";
 import { store } from "../app/stores/store";
+import DomainFullDnsDetails from "../app/models/dns/domainFullDnsDetails";
 
 axios.defaults.baseURL = "https://localhost:7014/api"
 
@@ -34,15 +35,20 @@ const Domains = {
     getUserDomains: () => requests.get<Domain[]>('/domains')
 }
 
-const Account ={
+const Account = {
     current: () => requests.get<User>("/account"),
     login: (user: LoginUser) => requests.post<User>("/account/login", user),
     register: (user: RegisterUser) => requests.post<User>("/account/register", user)
 }
 
+const Dns = {
+    getDomainFullDnsDetails: (domain: string) => requests.get<DomainFullDnsDetails>(`/domains/getFullDnsDetails/${domain}`)
+}
+
 const agent = {
     Domains,
-    Account
+    Account,
+    Dns
 }
 
 export default agent;

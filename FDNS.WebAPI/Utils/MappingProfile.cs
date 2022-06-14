@@ -55,6 +55,7 @@ namespace FDNS.WebAPI.Utils
                     context.Items["Token"]));
 
             CreateMap<Tld, SandboxTLD>();
+            CreateMap<Infrastructure.NamecheapAPI.Models.Base.Host, HostRecord>();
         }
     }
 }

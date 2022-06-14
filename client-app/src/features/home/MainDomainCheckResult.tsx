@@ -1,8 +1,6 @@
 import { observer } from "mobx-react-lite";
-import React from "react";
 import { Link } from "react-router-dom";
 import { Button, Grid, Icon, Label, Segment } from "semantic-ui-react";
-import { DomainCheckResult } from "../../app/models/domainCheckResult";
 import { DomainPriceResult } from "../../app/stores/domainStore";
 import { useStore } from "../../app/stores/store";
 

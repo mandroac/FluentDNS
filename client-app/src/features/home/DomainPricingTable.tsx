@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Icon, Table } from "semantic-ui-react";
-import { DomainPrice } from "../../app/models/domainPrice";
+import { DomainPrice } from "../../app/models/domain/domainPrice";
 import { useStore } from "../../app/stores/store";
 
 interface Props {

@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
-import { List, Segment, Tab } from "semantic-ui-react";
+import { Segment, Tab } from "semantic-ui-react";
 import { useStore } from "../../app/stores/store";
 import ProfileDomains from "./ProfileDomains";
 import ProfileHeader from "./ProfileHeader";
@@ -9,8 +9,9 @@ import ProfileSettings from "./ProfileSettings";
 export default observer(function ProfilePage() {
     const { userStore: { setActivePane } } = useStore();
     const panes = [
-        { menuItem: 'Domains', render: () => <ProfileDomains /> },
-        { menuItem: 'Settings', render: () => <ProfileSettings /> }
+        { menuItem: { key: 'domains', icon: 'globe', content: 'Domains'}, render: () => <ProfileDomains /> },
+        { menuItem: { key: 'contacts', icon: 'address card', content: 'Contacts'}, render: () => <Segment /> },
+        { menuItem: { key: 'settings', icon: 'settings', content: 'Settings'} , render: () => <ProfileSettings /> }
     ]
 
     return (
@@ -24,6 +25,5 @@ export default observer(function ProfilePage() {
                 onTabChange={(e, data) => setActivePane(data.activeIndex)}
             />
         </>
-
     )
 })

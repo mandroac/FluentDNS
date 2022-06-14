@@ -48,6 +48,40 @@ namespace FDNS.WebAPI.Controllers
 
         #region Namecheap API
 
+        [HttpGet("getFullDnsDetails/{domain}")]
+        public async Task<IActionResult> GetFullDnsDetails(string domain)
+        {
+            if (domain.Contains('.') && Uri.CheckHostName(domain) == UriHostNameType.Dns)
+            {
+                var domainParts = domain.Split('.');
+                var nameserversResult = await _namecheapDnsService.GetList(domainParts[0], domainParts[1]);
+
+                if (nameserversResult.IsSuccess)
+                {
+                    if (nameserversResult.Value.IsUsingOurDns)
+                    {
+                        var hostsResult = await _namecheapDnsService.GetHosts(domainParts[0], domainParts[1]);
+                        return hostsResult.IsSuccess == true ? Ok(new DomainFullDnsDetails
+                        {
+                            Domain = domain,
+                            IsUsingOurDNS = true,
+                            HostRecords = _mapper.Map<HostRecord[]>(hostsResult.Value.Hosts),
+                            Nameservers = nameserversResult.Value.Nameservers
+                        }) : BadRequest(hostsResult.Errors);
+                    }
+                    else return Ok(new DomainFullDnsDetails
+                    {
+                        Domain = domain,
+                        IsUsingOurDNS = false,
+                        HostRecords = null,
+                        Nameservers = nameserversResult.Value.Nameservers
+                    });
+                }
+                else return BadRequest(nameserversResult.Errors);
+            }
+            else return BadRequest($"'{domain}' is not a valid domain name");
+        }
+
         [HttpGet("getInfo/{domain}")]
         public async Task<IActionResult> GetDomainInfo(string domain)
         {

@@ -1,6 +1,6 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import agent from "../../api/agent";
-import { TLD } from "../models/TLD";
+import { TLD } from "../models/domain/TLD";
 
 export default class TldStore{
     gtlds: TLD[] = [];

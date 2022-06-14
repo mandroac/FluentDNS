@@ -4,7 +4,7 @@ import React from "react";
 import { useState } from "react";
 import { Button, Container, Divider, Grid, Icon, Label, Radio, Segment, Table } from "semantic-ui-react";
 import { history } from "../..";
-import { DomainRegisterFormValues, DomainRegisterModel } from "../../app/models/domainRegisterModel";
+import { DomainRegisterFormValues, DomainRegisterModel } from "../../app/models/domain/domainRegisterModel";
 import { useStore } from "../../app/stores/store";
 import CustomTextInput from "../../common/form/CustomTextInput";
 import * as Yup from 'yup';

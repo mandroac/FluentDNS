@@ -1,9 +1,9 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { history } from "../..";
 import agent from "../../api/agent";
-import { DomainCheckResult } from "../models/domainCheckResult";
-import { DomainPrice } from "../models/domainPrice";
-import { DomainRegisterModel } from "../models/domainRegisterModel";
+import { DomainCheckResult } from "../models/domain/domainCheckResult";
+import { DomainPrice } from "../models/domain/domainPrice";
+import { DomainRegisterModel } from "../models/domain/domainRegisterModel";
 import { store } from "./store";
 
 export type DomainPriceResult = {
@@ -65,6 +65,8 @@ export default class DomainStore {
             history.push('profile')
         } catch (error) {
             console.log(error);
+        } finally {
+            runInAction(() => this.loadingDomainRegistration == false);
         }
     }
 
