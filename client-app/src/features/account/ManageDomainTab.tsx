@@ -19,7 +19,7 @@ export default function ManageDomainTab({ domain, onCancel }: Props) {
     const { dnsStore: { getFullDnsDetails, dnsDetails } } = useStore()
 
     useEffect(() => {
-        if (dnsDetails === null || dnsDetails.domain != domain.name) {
+        if (dnsDetails === null || dnsDetails.domain !== domain.name) {
             getFullDnsDetails(domain.name);
         }
     }, [getFullDnsDetails]);

@@ -57,7 +57,7 @@ export default class DomainStore {
     }
 
     register = async (domain: DomainRegisterModel) => {
-        runInAction(() => this.loadingDomainRegistration == true);
+        runInAction(() => this.loadingDomainRegistration = true);
         try {
             const domainResult = await agent.Domains.register(domain);
             store.userStore.addDomain(domainResult);
@@ -66,7 +66,7 @@ export default class DomainStore {
         } catch (error) {
             console.log(error);
         } finally {
-            runInAction(() => this.loadingDomainRegistration == false);
+            runInAction(() => this.loadingDomainRegistration = false);
         }
     }
 
