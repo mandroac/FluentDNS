@@ -6,7 +6,7 @@ import { useStore } from "../../app/stores/store";
 import ManageDomainTab from "./ManageDomainTab";
 
 export default observer(function ProfileDomains() {
-    const { userStore: { domains, getDomains }, dnsStore: {loadingDnsCheck} } = useStore();
+    const { userStore: { domains, getDomains }, dnsStore: {loadingDnsCheck: loading} } = useStore();
     const [selectedDomain, setSelectedDomain] = useState<Domain | null>(null);
 
     useEffect(() => {
@@ -45,7 +45,7 @@ export default observer(function ProfileDomains() {
                                             {new Date(domain.expirationDate).toDateString()}
                                         </Grid.Column>
                                         <Grid.Column width={1} textAlign="center">
-                                            <Button loading={loadingDnsCheck} content="Manage" onClick={() => setSelectedDomain(domain)} />
+                                            <Button loading={loading} content="Manage" onClick={() => setSelectedDomain(domain)} />
                                         </Grid.Column>
                                     </Grid.Row>
                                 </Grid>

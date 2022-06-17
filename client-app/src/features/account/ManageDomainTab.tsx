@@ -1,7 +1,8 @@
 import { useEffect } from "react";
-import { Button, Card, Divider, Grid, List, Segment, Table } from "semantic-ui-react";
+import { Button, Card, Divider, Grid, List } from "semantic-ui-react";
 import { Domain } from "../../app/models/domain/domain";
 import { useStore } from "../../app/stores/store";
+import DomainHostsTable from "./DomainHostsTable";
 import DomainStatus from "./DomainStatus";
 
 interface Props {
@@ -63,55 +64,7 @@ export default function ManageDomainTab({ domain, onCancel }: Props) {
                         <h3>Host records:</h3>
                     </Grid.Column>
                     <Grid.Column width={13}>
-                        {!dnsDetails?.isUsingOurDns ?
-                            <>
-                                <Table striped celled >
-                                    <Table.Header>
-                                        <Table.Row>
-                                            <Table.HeaderCell>
-                                                Host
-                                            </Table.HeaderCell>
-                                            <Table.HeaderCell>
-                                                Type
-                                            </Table.HeaderCell>
-                                            <Table.HeaderCell>
-                                                Value
-                                            </Table.HeaderCell>
-                                            <Table.HeaderCell>
-                                                TTL
-                                            </Table.HeaderCell>
-                                            <Table.HeaderCell>
-                                                Actions
-                                            </Table.HeaderCell>
-                                        </Table.Row>
-                                    </Table.Header>
-                                    {dnsDetails?.hostRecords?.map(record => (
-                                        <Table.Row>
-                                            <Table.Cell>
-                                                {record.name}
-                                            </Table.Cell>
-                                            <Table.Cell>
-                                                {record.type}
-                                            </Table.Cell>
-                                            <Table.Cell>
-                                                {record.address}
-                                            </Table.Cell>
-                                            <Table.Cell>
-                                                {record.ttl}
-                                            </Table.Cell>
-                                            <Table.Cell>
-                                                <Button icon="delete" floated="right" />
-                                                <Button icon="edit" floated="right" />
-                                            </Table.Cell>
-                                        </Table.Row>
-                                    ))}
-                                </Table>
-                                <Button content="Add record" circular />
-                            </> :
-                            <Segment>
-                                This domain is using third-party nameservers
-                            </Segment>
-                        }
+                        <DomainHostsTable records={dnsDetails?.hostRecords} isUsingOurDNS={dnsDetails?.isUsingOurDns} />
                     </Grid.Column>
                 </Grid.Row>
                 <Divider />
@@ -149,10 +102,7 @@ export default function ManageDomainTab({ domain, onCancel }: Props) {
                     ))}
                 </Grid.Row>
             </Grid>
-            <Button.Group fluid>
-                <Button style={{ margin: "5px" }} content={"Save"} positive />
-                <Button style={{ margin: "5px" }} content={"Cancel"} onClick={onCancel} />
-            </Button.Group>
+                <Button content={"Back to domains list"} onClick={onCancel} basic circular/>
         </>
     )
 }
