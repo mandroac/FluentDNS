@@ -3,7 +3,6 @@ using FDNS.Common.DataTransferObjects;
 using FDNS.Domain.Models;
 using FDNS.Infrastructure.NamecheapAPI.Interfaces;
 using FDNS.Infrastructure.NamecheapAPI.Models.Domains;
-using FDNS.Infrastructure.NamecheapAPI.Models.Users;
 using FDNS.Services.Abstractions.Base;
 using FDNS.WebAPI.Extensions;
 using FDNS.WebAPI.Models.Domains;
@@ -197,6 +196,30 @@ namespace FDNS.WebAPI.Controllers
             var response = await _tldService.GetGtlds();
 
             return Ok(response.Value);
+        }
+        
+        [HttpPut("setDefault/{domain}")]
+        public async Task<IActionResult> SetDefaultNameservers(string domain)
+        {
+            if (domain.Contains('.') && Uri.CheckHostName(domain) == UriHostNameType.Dns)
+            {
+                var domainParts = domain.Split('.');
+                var result = await _namecheapDnsService.SetDefault(domainParts[0], domainParts[1]);
+                return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Errors);
+            }
+            else return BadRequest($"'{domain}' is not a valid domain name");
+        }
+
+        [HttpPut("setCustom/{domain}")]
+        public async Task<IActionResult> SetCustomNameservers(string domain, [FromBody] string[] nameservers)
+        {
+            if (domain.Contains('.') && Uri.CheckHostName(domain) == UriHostNameType.Dns)
+            {
+                var domainParts = domain.Split('.');
+                var result = await _namecheapDnsService.SetCustom(domainParts[0], domainParts[1], nameservers);
+                return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Errors);
+            }
+            else return BadRequest($"'{domain}' is not a valid domain name");
         }
 
         #endregion

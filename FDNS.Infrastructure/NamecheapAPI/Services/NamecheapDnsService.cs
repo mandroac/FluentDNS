@@ -57,6 +57,49 @@ namespace FDNS.Infrastructure.NamecheapAPI.Services
             }
         }
 
+        public async Task<ServiceResult<DomainDNSSetCustomResult>> SetCustom(string sld, string tld, string[] nameservers)
+        {
+            var query = new Query(NamecheapApiCommands.Domains.DNS.SetCustom, GlobalParams)
+                .AddParameter(NamecheapApiParams.Domains.DNS.SLD, sld)
+                .AddParameter(NamecheapApiParams.Domains.DNS.TLD, tld)
+                .AddParameter(NamecheapApiParams.Domains.DNS.NameServers, string.Join(',', nameservers));
+
+            try
+            {
+                var responseElement = await SendRequestAsync<DomainDNSSetCustomResult>(new HttpRequestMessage(HttpMethod.Get, query.Result));
+                var result = DeserializeElement<DomainDNSSetCustomResult>(responseElement);
+                return new ServiceResult<DomainDNSSetCustomResult>(result);
+            }
+            catch (ApplicationException ex)
+            {
+                return new ServiceResult<DomainDNSSetCustomResult>(new List<string>
+                {
+                    ex.Message
+                });
+            }
+        }
+
+        public async Task<ServiceResult<DomainDNSSetDefaultResult>> SetDefault(string sld, string tld)
+        {
+            var query = new Query(NamecheapApiCommands.Domains.DNS.SetDefault, GlobalParams)
+                .AddParameter(NamecheapApiParams.Domains.DNS.SLD, sld)
+                .AddParameter(NamecheapApiParams.Domains.DNS.TLD, tld);
+
+            try
+            {
+                var responseElement = await SendRequestAsync<DomainDNSSetDefaultResult>(new HttpRequestMessage(HttpMethod.Get, query.Result));
+                var result = DeserializeElement<DomainDNSSetDefaultResult>(responseElement);
+                return new ServiceResult<DomainDNSSetDefaultResult>(result);
+            }
+            catch (ApplicationException ex)
+            {
+                return new ServiceResult<DomainDNSSetDefaultResult>(new List<string>
+                {
+                    ex.Message
+                });
+            }
+        }
+
         public async Task<ServiceResult<DomainDNSSetHostsResult>> SetHosts(string sld, string tld, Host[] records)
         {
             var query = new Query(NamecheapApiCommands.Domains.DNS.SetHosts, GlobalParams)
@@ -71,7 +114,7 @@ namespace FDNS.Infrastructure.NamecheapAPI.Services
                     .AddParameter(NamecheapApiParams.Domains.DNS.MxPref + (i + 1), records[i].MXPref.ToString());
 
                 if (records[i].TTL != 0)
-                    query.AddParameter("TTL" + (i + 1), records[i].TTL.ToString());
+                    query.AddParameter(NamecheapApiParams.Domains.DNS.TTL + (i + 1), records[i].TTL.ToString());
             }
 
             try

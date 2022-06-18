@@ -26,6 +26,7 @@
 
             internal static class DNS
             {
+                public static readonly string NameServers = "NameServers";
                 public static readonly string SLD = "SLD";
                 public static readonly string TLD = "TLD";
                 public static readonly string HostName = "HostName";
