@@ -10,6 +10,7 @@ import { User } from "../app/models/user/user";
 import { store } from "../app/stores/store";
 import DomainFullDnsDetails from "../app/models/dns/domainFullDnsDetails";
 import { HostRecord } from "../app/models/dns/hostRecord";
+import GetHosts from "../app/models/dns/getHosts";
 
 axios.defaults.baseURL = "https://localhost:7014/api"
 
@@ -44,7 +45,10 @@ const Account = {
 
 const Dns = {
     getDomainFullDnsDetails: (domain: string) => requests.get<DomainFullDnsDetails>(`/domains/getFullDnsDetails/${domain}`),
-    setHosts: (domain: string, records: HostRecord[]) => requests.post(`/domains/setHosts/${domain}`, records)
+    getHosts: (domain: string) => requests.get<GetHosts>(`/domains/getHosts/${domain}`),
+    setHosts: (domain: string, records: HostRecord[]) => requests.post(`/domains/setHosts/${domain}`, records),
+    setCustom: (domain: string, nameservers: string[]) => requests.put(`/domains/setCustom/${domain}`, nameservers),
+    setDefault: (domain: string) => requests.put(`/domains/setDefault/${domain}`, {})
 }
 
 const agent = {

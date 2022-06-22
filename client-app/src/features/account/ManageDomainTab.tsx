@@ -1,7 +1,10 @@
+import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
 import { Button, Card, Divider, Grid, List } from "semantic-ui-react";
+import LoadingComponent from "../../app/layout/LoadingComponent";
 import { Domain } from "../../app/models/domain/domain";
 import { useStore } from "../../app/stores/store";
+import NameserversEditor from "../shared/NameserversEditor";
 import DomainHostsTable from "./DomainHostsTable";
 import DomainStatus from "./DomainStatus";
 
@@ -16,15 +19,16 @@ const contactTypesMap: Map<number, string> = new Map<number, string>([
     [3, "Tech"]
 ])
 
-export default function ManageDomainTab({ domain, onCancel }: Props) {
-    const { dnsStore: { getFullDnsDetails, dnsDetails } } = useStore()
+export default observer(function ManageDomainTab({ domain, onCancel }: Props) {
+    const { dnsStore: { getFullDnsDetails, dnsDetails, loadingDnsCheck } } = useStore()
 
     useEffect(() => {
         if (dnsDetails === null || dnsDetails.domain !== domain.name) {
             getFullDnsDetails(domain.name);
         }
-    }, [getFullDnsDetails]);
+    }, [getFullDnsDetails, dnsDetails]);
 
+    if (loadingDnsCheck) return <LoadingComponent content="Loading DNS details" />
     return (
         <>
             <h1>Edit <span style={{ color: "purple" }}>{domain.name}</span> domain</h1>
@@ -45,17 +49,8 @@ export default function ManageDomainTab({ domain, onCancel }: Props) {
                     <Grid.Column width={3}>
                         <h3>Nameservers: </h3>
                     </Grid.Column>
-                    <Grid.Column width={10}>
-                        <List>
-                            {dnsDetails?.nameservers.map(ns => (
-                                <List.Item key={ns}>
-                                    {ns}
-                                </List.Item>
-                            ))}
-                        </List>
-                    </Grid.Column>
-                    <Grid.Column width={3}>
-                        <Button content={"Edit"} primary basic />
+                    <Grid.Column width={13}>
+                        <NameserversEditor dnsDetails={dnsDetails} />
                     </Grid.Column>
                 </Grid.Row>
                 <Divider />
@@ -64,7 +59,7 @@ export default function ManageDomainTab({ domain, onCancel }: Props) {
                         <h3>Host records:</h3>
                     </Grid.Column>
                     <Grid.Column width={13}>
-                        <DomainHostsTable records={dnsDetails?.hostRecords} isUsingOurDNS={dnsDetails?.isUsingOurDns} />
+                        <DomainHostsTable records={dnsDetails?.hostRecords} isUsingOurDNS={dnsDetails?.isUsingOurDNS} />
                     </Grid.Column>
                 </Grid.Row>
                 <Divider />
@@ -105,4 +100,4 @@ export default function ManageDomainTab({ domain, onCancel }: Props) {
                 <Button content={"Back to domains list"} onClick={onCancel} basic circular/>
         </>
     )
-}
+})

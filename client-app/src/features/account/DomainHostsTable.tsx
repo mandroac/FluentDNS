@@ -49,9 +49,10 @@ export default observer(function DomainHostsTable({ records, isUsingOurDNS }: Pr
         setEditMode(true, recordPrototype.id)
     }
 
+    console.log(records)
     return (
         <>
-            {!isUsingOurDNS ?
+            {isUsingOurDNS !== undefined && isUsingOurDNS?
                 <>
                     <Table striped style={{ fontSize: 12, textAlign: "center" }} tableData={records}>
                         <Table.Header>

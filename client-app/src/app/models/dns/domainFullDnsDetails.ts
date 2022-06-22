@@ -2,7 +2,7 @@ import { HostRecord } from "./hostRecord";
 
 export default interface DomainFullDnsDetails{
     domain: string;
-    isUsingOurDns: boolean;
+    isUsingOurDNS: boolean;
     hostRecords?: HostRecord[];
     nameservers: string[];
 }
