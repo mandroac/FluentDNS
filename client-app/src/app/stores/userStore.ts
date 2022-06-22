@@ -60,7 +60,7 @@ export default class UserStore{
     }
     
     getDomains = async () => {
-        this.loadingDomains = true;
+        runInAction(() => this.loadingDomains = true);
         try {
             this.domains = await agent.Domains.getUserDomains();
         } catch (error) {

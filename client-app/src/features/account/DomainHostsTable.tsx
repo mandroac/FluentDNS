@@ -1,7 +1,6 @@
 import { observer } from "mobx-react-lite";
-import React, { useState } from "react";
-import { Button, Dropdown, Grid, Input, Segment, Table } from "semantic-ui-react";
-import { number } from "yup";
+import { useState } from "react";
+import { Button, Dropdown, Input, Segment, Table } from "semantic-ui-react";
 import { HostRecord } from "../../app/models/dns/hostRecord";
 import { useStore } from "../../app/stores/store";
 
@@ -24,7 +23,7 @@ export default observer(function DomainHostsTable({ records, isUsingOurDNS }: Pr
 
     function setEditMode(mode: boolean, recordId: number | null) {
         if (mode) {
-            const currentRecord = records?.find(r => r.id == recordId) as HostRecord
+            const currentRecord = records?.find(r => r.id === recordId) as HostRecord
             setEditHost(currentRecord);
             setEditableRowId(recordId);
         } else {

@@ -19,7 +19,7 @@ export default observer(function ProfileDomains() {
             <ManageDomainTab domain={selectedDomain} onCancel={() => setSelectedDomain(null)} />
                 : <List divided verticalAlign="middle">
                     {domains.map(domain => (
-                        <List.Item>
+                        <List.Item key={domain.id}>
                             <List.Content >
                                 <Grid padded>
                                     <Grid.Row columns={5}>

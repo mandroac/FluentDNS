@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
-import React, { useEffect, useState } from "react";
-import { Button, Container, Dropdown, DropdownProps, Grid, GridRow, Input, List } from "semantic-ui-react";
+import { useEffect, useState } from "react";
+import { Button, Container, Dropdown, DropdownProps, Grid, Input } from "semantic-ui-react";
 import DomainFullDnsDetails from "../../app/models/dns/domainFullDnsDetails";
 import { useStore } from "../../app/stores/store";
 

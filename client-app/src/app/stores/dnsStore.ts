@@ -28,8 +28,8 @@ export default class DnsStore {
     }
 
     editHostRecord = (record: HostRecord) => {
-        const foundIndex = this.dnsDetails?.hostRecords?.findIndex(r => r.id == record.id);
-        if (foundIndex != undefined && this.dnsDetails?.hostRecords) {
+        const foundIndex = this.dnsDetails?.hostRecords?.findIndex(r => r.id === record.id);
+        if (foundIndex !== undefined && this.dnsDetails?.hostRecords) {
             this.dnsDetails.hostRecords[foundIndex] = record;
         }
     }
@@ -39,8 +39,8 @@ export default class DnsStore {
     }
 
     removeHostRecord = (recordId: number) => {
-        const foundIndex = this.dnsDetails?.hostRecords?.findIndex(r => r.id == recordId);
-        if (foundIndex != undefined && this.dnsDetails?.hostRecords) {
+        const foundIndex = this.dnsDetails?.hostRecords?.findIndex(r => r.id === recordId);
+        if (foundIndex !== undefined && this.dnsDetails?.hostRecords) {
             this.dnsDetails.hostRecords.splice(foundIndex, 1);
         }
     }
