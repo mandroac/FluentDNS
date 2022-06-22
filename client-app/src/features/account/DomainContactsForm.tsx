@@ -3,6 +3,7 @@ import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Button, Container, Divider } from "semantic-ui-react";
+import { history } from "../..";
 import { DomainContacts } from "../../app/models/domain/domainContacts";
 import { useStore } from "../../app/stores/store";
 import CustomTextInput from "../../common/form/CustomTextInput";
@@ -59,7 +60,7 @@ export default observer(function DomainContactsForm() {
                 </Container>
                 <Button.Group style={{padding: "5px"}}>
                     <Button fluid positive basic floated="left" content="Save" />
-                    <Button fluid basic primary floated="right" content="Back" />
+                    <Button fluid basic primary floated="right" content="Back" onClick={() => history.back()} />
                 </Button.Group>
             </Form>
         </Formik>
