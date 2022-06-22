@@ -27,7 +27,7 @@ export default observer(function ManageDomainTab({ domain, onCancel }: Props) {
         if (dnsDetails === null || dnsDetails.domain !== domain.name) {
             getFullDnsDetails(domain.name);
         }
-    }, [getFullDnsDetails, dnsDetails]);
+    }, [getFullDnsDetails, dnsDetails, domain]);
 
     if (loadingDnsCheck) return <LoadingComponent content="Loading DNS details" />
     return (

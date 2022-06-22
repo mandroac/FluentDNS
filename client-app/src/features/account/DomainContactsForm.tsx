@@ -35,13 +35,13 @@ export default observer(function DomainContactsForm() {
             const domainContacts = domainObject.contacts.find(c => c.contactsType === contactTypesMap.get(contactsType));
             if (domainContacts) setContacts(domainContacts);
         }
-        console.log(contacts);
     }, [domains, contacts, domain, contactsType, setContacts])
 
     return (
         <Formik enableReinitialize initialValues={contacts} onSubmit={() => console.log(contacts)}>
             <Form className="ui form">
                 <Container fluid>
+                    <h1>Domain <span style={{ color: "purple" }}>{domain}</span> {contactsType?.toLowerCase()} contacts</h1>
                     <Divider horizontal content="Required" />
                     <CustomTextInput name="firstName" placeholder="First name" />
                     <CustomTextInput name="lastName" placeholder="Last name" />
