@@ -6,7 +6,7 @@ export interface DomainContacts {
     address1: string;
     address2?: string;
     city: string;
-    country: string;
+    countryName: string;
     stateProvince: string;
     postalCode: string;
     phone: string;

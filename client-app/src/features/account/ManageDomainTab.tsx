@@ -1,5 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Button, Card, Divider, Grid, List } from "semantic-ui-react";
 import LoadingComponent from "../../app/layout/LoadingComponent";
 import { Domain } from "../../app/models/domain/domain";
@@ -90,7 +91,8 @@ export default observer(function ManageDomainTab({ domain, onCancel }: Props) {
                                     </List>
                                 </Card.Content>
                                 <Card.Content extra>
-                                    <Button basic content="Edit" />
+                                    <Button basic content="Edit" as={Link} 
+                                        to={`/profiles/${domain.name}/${contactTypesMap.get(contact.contactsType!)}`} />
                                 </Card.Content>
                             </Card>
                         </Grid.Column>
