@@ -48,7 +48,6 @@ export default observer(function DomainHostsTable({ records, isUsingOurDNS }: Pr
         setEditMode(true, recordPrototype.id)
     }
 
-    console.log(records)
     return (
         <>
             {isUsingOurDNS !== undefined && isUsingOurDNS?

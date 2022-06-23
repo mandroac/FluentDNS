@@ -19,7 +19,7 @@ export default class DnsStore {
             let result = await agent.Dns.getDomainFullDnsDetails(domain);
             let id = 0;
             result.hostRecords?.map(record => (record.id = id++))
-            this.dnsDetails = result;
+            runInAction(() => this.dnsDetails = result);
         } catch (error) {
             console.log(error)
         } finally {

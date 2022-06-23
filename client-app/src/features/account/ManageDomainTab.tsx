@@ -69,12 +69,12 @@ export default observer(function ManageDomainTab({ domain, onCancel }: Props) {
                 </Grid.Row>
                 <Grid.Row>
                     {domain.contacts.map(contact => (
-                        <Grid.Column width={4}>
+                        <Grid.Column width={4} key={contact.contactsType}>
                             <Card>
-                                <Card.Content header>
+                                <Card.Header>
                                     {contactTypesMap.get(contact.contactsType!)}
-                                </Card.Content>
-                                <Card.Content description style={{ fontSize: 12 }}>
+                                </Card.Header>
+                                <Card.Description style={{ fontSize: 12 }}>
                                     <List>
                                         <List.Item>
                                             First name: {contact.firstName}
@@ -89,7 +89,7 @@ export default observer(function ManageDomainTab({ domain, onCancel }: Props) {
                                             ...
                                         </List.Item>
                                     </List>
-                                </Card.Content>
+                                </Card.Description>
                                 <Card.Content extra>
                                     <Button basic content="Edit" as={Link} 
                                         to={`/profiles/${domain.name}/${contactTypesMap.get(contact.contactsType!)}`} />

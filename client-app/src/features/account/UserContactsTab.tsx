@@ -58,8 +58,8 @@ export default observer(function UserContactsTab() {
                     <CustomTextInput name="fax" placeholder="Fax" />
                 </Container>
                 <Button.Group style={{padding: "5px"}}>
-                    <Button fluid positive basic floated="left" content="Save" />
-                    <Button fluid basic primary floated="right" content="Back" onClick={() => history.back()} />
+                    <Button fluid positive basic floated="left" content="Save" type="submit"/>
+                    <Button fluid basic primary floated="right" content="Back" onClick={() => history.back()} type="button" />
                 </Button.Group>
             </Form>
         </Formik>
