@@ -6,6 +6,7 @@ using FDNS.Domain.Models;
 using FDNS.Services.Abstractions.Base;
 using FDNS.Services.Abstractions.Security;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace FDNS.Services.Base
 {
@@ -43,11 +44,17 @@ namespace FDNS.Services.Base
             User user;
             if (authUserDTO.Email != null)
             {
-                user = await _userManager.FindByEmailAsync(authUserDTO.Email);
+                user = await _userManager.Users.Where(u => u.Email == authUserDTO.Email)
+                    .Include(u => u.Contacts)
+                    .ThenInclude(c => c.Country)
+                    .SingleOrDefaultAsync();
             }
             else
             {
-                user = await _userManager.FindByNameAsync(authUserDTO.UserName);
+                user = await _userManager.Users.Where(u => u.UserName == authUserDTO.UserName)
+                    .Include(u => u.Contacts)
+                    .ThenInclude(c => c.Country)
+                    .SingleOrDefaultAsync();
             } 
 
             if (user != null && await _userManager.CheckPasswordAsync(user, authUserDTO.Password))
@@ -66,7 +73,8 @@ namespace FDNS.Services.Base
 
         public async Task<ServiceResult<(UserDTO user, string token)>> GetCurrentUserAsync(string username)
         {
-            var user = await _userManager.FindByNameAsync(username);
+            var user = await _userManager.Users.Where(u => u.UserName == username)
+                .Include(u => u.Contacts).ThenInclude(c => c.Country).SingleOrDefaultAsync();
             if (user != null)
             {
                 var userDto = _mapper.Map<UserDTO>(user);
